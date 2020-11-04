@@ -12,6 +12,7 @@ import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ItemComponent } from './pages/item/item.component';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { LoadingComponent } from './shared/loading/loading.component';
     PortfolioComponent,
     AboutComponent,
     ItemComponent,
-    LoadingComponent
+    LoadingComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

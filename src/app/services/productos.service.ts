@@ -8,30 +8,56 @@ import { ProductosIdx, Productos } from '../interfaces/info-pagina.interface';
 export class ProductosService {
 
   productosIdx: ProductosIdx[] = [];
+  productoFiltrado: ProductosIdx[] = [];
   cargandoIdx = true;
-  productos: Productos[] = [];
-  cargandoProductos = true;
 
   constructor( private http: HttpClient ) {
     this.getProductosIdx();
-    this.getProductos();
   }
 
   getProductosIdx(){
-    this.http.get('https://mariosportfolio.firebaseio.com/productos_idx.json')
+    return new Promise((resolve, reject) => {
+          this.http.get('https://mariosportfolio.firebaseio.com/productos_idx.json')
         .subscribe( (resp: ProductosIdx[]) => {
           this.productosIdx = resp;
           this.cargandoIdx = false;
-          console.log(resp);
+          resolve();
         });
+    });
+
   }
 
-  getProductos(){
-    this.http.get('https://mariosportfolio.firebaseio.com/productos.json')
-        .subscribe( (resp: Productos[]) => {
-          this.productos = resp;
-          this.cargandoProductos = false;
-          console.log(resp);
-        });
+  getProducto(cod: string){
+    return this.http.get(`https://mariosportfolio.firebaseio.com/productos/${cod}.json`);
+  }
+
+  buscarProductos( termino: string ) {
+
+    if(this.productosIdx.length === 0){
+
+      this.getProductosIdx().then( () => {
+
+        this.filtrarProductos(termino);
+
+      });
+
+    }else{
+
+      this.filtrarProductos(termino);
+
+    }
+
+    console.log(this.productoFiltrado);
+  }
+
+  private filtrarProductos(termino: string){
+    this.productoFiltrado = [];
+    termino = termino.toLocaleLowerCase()
+    this.productosIdx.forEach( prod => {
+      if((prod.categoria.toLocaleLowerCase().indexOf( termino ) >= 0)
+            || (prod.titulo.toLocaleLowerCase().indexOf( termino ) >= 0)){
+        this.productoFiltrado.push(prod);
+      }
+    });
   }
 }
