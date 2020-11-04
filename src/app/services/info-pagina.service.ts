@@ -22,17 +22,17 @@ export class InfoPaginaService {
 
   private cargarInfo(){
     this.http.get('assets/data/data-pagina.json')
-    .subscribe( (resp: InfoPagina) => {
-      console.log(resp);
-      this.info = resp;
-      this.infoCargada = true;
-    });
+        .subscribe( (resp: InfoPagina) => {
+         // console.log(resp);
+          this.info = resp;
+          this.infoCargada = true;
+        });
   }
 
   private cargarEquipo(){
     this.http.get('https://mariosportfolio.firebaseio.com/equipo.json')
         .subscribe( (resp: InfoPersonal[]) => {
-          console.log(resp);
+          // console.log(resp);
           this.equipo = resp;
           this.equipoCargado = true;
         });
